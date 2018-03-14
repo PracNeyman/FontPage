@@ -5,12 +5,13 @@
 package sample;
 
 import javafx.scene.Group;
+import javafx.scene.control.Tooltip;
 import sample.Branch.Type;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+//import static sample.GailanController.allNodes;
 import static sample.Util.addChildToParent;
 
 
@@ -68,7 +69,9 @@ public class TreeGenerator {
         List<SmartNode> leafage = new ArrayList<SmartNode>();
         for (int i = 0; i < crown.size(); i++) {
             Branch branch = crown.get(i);
-            SmartNode leaf = new SmartNode(branch);
+            String[] hospitals = {"黑龙江中医药","哈医大一附院","哈工大校医院","哈医大二附院"};
+            SmartNode leaf = new SmartNode(branch, new Tooltip(hospitals[RandomUtil.getRandomIndex(0,3)]));
+//            allNodes.add(leaf);
             leafage.add(leaf);
             addChildToParent(branch, leaf);
         }

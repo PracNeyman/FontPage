@@ -150,6 +150,7 @@ public class Main extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         primaryStage.setScene(new Scene(root, SCENE_WIDTH, SCENE_HEIGHT));
         primaryStage.show();
     }

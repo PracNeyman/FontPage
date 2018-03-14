@@ -5,25 +5,31 @@ import javafx.animation.RotateTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
+import static sample.GailanController.selectedData;
+
 public class SmartNode extends Circle{
+    public Tooltip tip;
     public FadeTransition ft;
     public ScaleTransition st;
     public RotateTransition rt1;
     public RotateTransition rt2;
 
-    public SmartNode(Branch parentBranch) {
+    public SmartNode(Branch parentBranch, Tooltip tooltip) {
         super(0,parentBranch.length/2, parentBranch.length/2);
-//        this.setRadius(parentBranch.length/2);//有待商榷
         this.setFill(new ImagePattern(new Image(Main.class.getResourceAsStream("duola.png"))));
 
+        tip = tooltip;
         setScaleX(0); //trick to hide leaves
         setScaleY(0);
+
+        Tooltip.install(this,tooltip);
 
         rt1 = new RotateTransition(Duration.millis(500), this);
         rt1.setByAngle(360f);
