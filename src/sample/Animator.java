@@ -1,5 +1,6 @@
 package sample;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,9 +15,11 @@ public class Animator implements Runnable {
     public static final Duration BRANCH_GROWING_DURATION = Duration.seconds(0.5);
     public static final Duration LEAF_APPEARING_DURATION = Duration.seconds(2);
     private TreeGenerator treeGenerator;
+    private JFXButton startBtn;
 
-    Animator(TreeGenerator treeGenerator) {
+    Animator(TreeGenerator treeGenerator, JFXButton startBtn ) {
         this.treeGenerator = treeGenerator;
+        this.startBtn = startBtn;
     }
 
     @Override
@@ -42,9 +45,13 @@ public class Animator implements Runnable {
                 new SequentialTransition(branchGrowingAnimationList.get(1), animateLeaf(treeList.get(1).leafage)),
                 new SequentialTransition(branchGrowingAnimationList.get(2), animateLeaf(treeList.get(2).leafage)),
                 new SequentialTransition(branchGrowingAnimationList.get(3), animateLeaf(treeList.get(3).leafage)));
+        SequentialTransition allWithPlus = new SequentialTransition();
+        ParallelTransition btnPT = new ParallelTransition();
+        btnPT.getChildren().add(ScaleTransitionBuilder.create().toX(10).toY(10).node(startBtn).duration(LEAF_APPEARING_DURATION).build());
+        allWithPlus.getChildren().addAll(all,btnPT);
+        allWithPlus.play();
 
-
-        all.play();
+//        all.play();
 
     }
 

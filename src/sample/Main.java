@@ -27,13 +27,12 @@ import java.io.IOException;
 
 public class Main extends Application {
 
-    private static final int SCENE_WIDTH =1366;
-    private static final int SCENE_HEIGHT = 768;
-    private static final int NUMBER_OF_BRANCH_GENERATIONS = 6;
+    static final int SCENE_WIDTH =1440;
+    static final int SCENE_HEIGHT = 900;
+    static final int NUMBER_OF_BRANCH_GENERATIONS = 6;
     private Group rootContent;
     private Group treeContent;
     private Pane backPane;
-
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -87,15 +86,13 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(welcomeHBox, SCENE_WIDTH,SCENE_HEIGHT));
         primaryStage.show();
 
-
-
     }
-
 
     public static void main(String[] args) {
         launch(args);
     }
-    private class AppScene extends Scene {
+
+    class AppScene extends Scene {
 
         public AppScene(Stage primaryStage) {
 
