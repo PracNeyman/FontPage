@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.Tab;
@@ -132,8 +133,10 @@ public class Controller implements Initializable{
         rootContent.getChildren().add(treeContent = new Group()); // tree layout
         rootContent.getTransforms().addAll(new Translate(SCENE_WIDTH / 2, SCENE_HEIGHT *2/5),new Rotate(225));
         JFXButton startBtn = new JFXButton("start");
-        startBtn.setLayoutX(SCENE_WIDTH / 2);
-        startBtn.setLayoutY(SCENE_HEIGHT *2/5);
+        startBtn.setLayoutX(SCENE_WIDTH *5/6 );
+        startBtn.setLayoutY(SCENE_HEIGHT *5/6);
+        startBtn.setAlignment(Pos.BASELINE_LEFT);
+        startBtn.setGraphicTextGap(16.0);
 
         Animator animator = new Animator(new TreeGenerator(treeContent, NUMBER_OF_BRANCH_GENERATIONS), startBtn);
         animator.run();
@@ -148,6 +151,7 @@ public class Controller implements Initializable{
                 translateTransition.setToX(0);
                 translateTransition.play();
                 sidePane.setVisible(true);
+                startBtn.setVisible(false);
             }
         });
 

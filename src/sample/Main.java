@@ -24,12 +24,15 @@ import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends Application {
 
+    public static List<SmartNode> allNodes = new ArrayList<>();
     static final int SCENE_WIDTH =1440;
     static final int SCENE_HEIGHT = 900;
-    static final int NUMBER_OF_BRANCH_GENERATIONS = 6;
+    static final int NUMBER_OF_BRANCH_GENERATIONS = 5;
     private Group rootContent;
     private Group treeContent;
     private Pane backPane;
@@ -150,7 +153,7 @@ public class Main extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        root.getStylesheets().add(Main.class.getResource("base.css").toExternalForm());
         primaryStage.setScene(new Scene(root, SCENE_WIDTH, SCENE_HEIGHT));
         primaryStage.show();
     }

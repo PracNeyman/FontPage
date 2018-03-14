@@ -3,11 +3,14 @@ package sample;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXListView;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tooltip;
@@ -15,11 +18,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static sample.Main.allNodes;
 
 public class GailanController implements Initializable{
 
@@ -34,11 +44,31 @@ public class GailanController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ObservableList<String> list = FXCollections.observableArrayList("黑龙江中医药","哈医大一附院","哈工大校医院","哈医大二附院");
+//        ObservableList<String> list = FXCollections.observableArrayList("黑龙江中医药","哈医大一附院","哈工大校医院","哈医大二附院");
+        selectedData.setCellFactory(tv -> new PicCell());
+        selectedData.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                StackPane stackPane = new StackPane();
+                stackPane.getChildren().add(new Text(newValue.toString()));
+                Stage stage = new Stage();
+                stage.setScene(new Scene(stackPane, 400,300));
+                stage.show();
+            }
+        });
+        ObservableList<String> list = FXCollections.observableArrayList();
         selectedData.setItems(list);
 
-        selectedData.setCellFactory(tv -> new PicCell());
-
+        for(SmartNode node : allNodes) {
+            node.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    list.add(node.tip.getText());
+                    node.st.play();
+                    node.ft.play();
+                }
+            });
+        }
     }
 
     @FXML
@@ -56,10 +86,15 @@ class PicCell extends ListCell<String> {
     protected void updateItem(String item, boolean empty){
         super.updateItem(item, empty);
         if (!empty) {
+            BorderPane cell = new BorderPane();
             Circle circle = new Circle(20);
             circle.setFill(new ImagePattern(new Image(Main.class.getResourceAsStream(item+".jpg"))));
-            setGraphic(circle);
-            setText(item);
+            cell.setLeft(circle);
+            cell.setCenter(new Text(item));
+            setGraphic(cell);
+//            setGraphic(circle);
+//            setText(item);
+//            System.out.println(item);
         }else{
             setGraphic(null);
         }

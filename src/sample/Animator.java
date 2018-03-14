@@ -47,7 +47,7 @@ public class Animator implements Runnable {
                 new SequentialTransition(branchGrowingAnimationList.get(3), animateLeaf(treeList.get(3).leafage)));
         SequentialTransition allWithPlus = new SequentialTransition();
         ParallelTransition btnPT = new ParallelTransition();
-        btnPT.getChildren().add(ScaleTransitionBuilder.create().toX(10).toY(10).node(startBtn).duration(LEAF_APPEARING_DURATION).build());
+        btnPT.getChildren().add(ScaleTransitionBuilder.create().toX(5).toY(5).node(startBtn).duration(LEAF_APPEARING_DURATION).build());
         allWithPlus.getChildren().addAll(all,btnPT);
         allWithPlus.play();
 

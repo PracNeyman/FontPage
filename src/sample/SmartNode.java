@@ -12,7 +12,6 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
-import static sample.GailanController.selectedData;
 
 public class SmartNode extends Circle{
     public Tooltip tip;
@@ -23,7 +22,7 @@ public class SmartNode extends Circle{
 
     public SmartNode(Branch parentBranch, Tooltip tooltip) {
         super(0,parentBranch.length/2, parentBranch.length/2);
-        this.setFill(new ImagePattern(new Image(Main.class.getResourceAsStream("duola.png"))));
+        this.setFill(new ImagePattern(new Image(Main.class.getResourceAsStream(tooltip.getText()+".jpg"))));
 
         tip = tooltip;
         setScaleX(0); //trick to hide leaves
@@ -69,13 +68,13 @@ public class SmartNode extends Circle{
         st.setCycleCount(-1);
         st.setAutoReverse(true);
 //        st.play();
-        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                ft.play();
-                st.play();
-            }
-        });
+//        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                ft.play();
+//                st.play();
+//            }
+//        });
     }
 
 }
