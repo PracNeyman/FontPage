@@ -3,6 +3,7 @@ package sample;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXTabPane;
+import javafx.animation.TranslateTransition;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +26,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -61,7 +63,10 @@ public class Controller implements Initializable{
         manage_data_tab.setGraphic(new ImageView(new Image(Main.class.getResourceAsStream("3.png"), TAB_SIZE, TAB_SIZE, false, true)));
         personal_info_tab.setGraphic(new ImageView(new Image(Main.class.getResourceAsStream("4.png"), TAB_SIZE, TAB_SIZE, false, true)));
 
-        selectGailan();
+        if(!isOnline) {
+            gailan_tab.setContent(loginAni());
+            isOnline = true;
+        }
 
         Pane func_pane = new Pane();
         try {
@@ -117,22 +122,17 @@ public class Controller implements Initializable{
 
     }
 
-    private void selectGailan() {
-        if(!isOnline) {
-            gailan_tab.setContent(loginAni());
-            isOnline = true;
-        }
-        else {
-            Pane gailan_pane = new Pane();
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("gailan.fxml"));
-                gailan_pane.getChildren().addAll(root);
+    private Pane sideList() {
+        Pane gailan_pane = new Pane();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("gailan.fxml"));
+            gailan_pane.getChildren().addAll(root);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            gailan_tab.setContent(gailan_pane);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return gailan_pane;
+//        gailan_tab.setContent(gailan_pane);
     }
 
     private Pane loginAni() {
@@ -147,16 +147,23 @@ public class Controller implements Initializable{
         Animator animator = new Animator(new TreeGenerator(treeContent, NUMBER_OF_BRANCH_GENERATIONS), startBtn);
         animator.run();
 
+        Pane sidePane = sideList();
+        sidePane.setVisible(false);
         startBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                selectGailan();
+                TranslateTransition translateTransition = new TranslateTransition(Duration.millis(1000),sidePane);
+                translateTransition.setFromX(-1*sidePane.getWidth());
+                translateTransition.setToX(0);
+                translateTransition.play();
+                sidePane.setVisible(true);
             }
         });
 
         Pane pane = new Pane();
         pane.getChildren().add(rootContent);
         pane.getChildren().add(startBtn);
+        pane.getChildren().add(sidePane);
         return  pane;
     }
 
